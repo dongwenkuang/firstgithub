@@ -1,0 +1,33 @@
+<ion-view view-title="个人中心" hide-back-button="false" class="scroll">
+  <ion-content>
+    <div class="userCenter">
+        <div class="content">
+          <ul>
+            <li><p>认证状态</p><p>{{engineerStateName}}</p></li>
+            <li><p>服务总数</p><p>{{userCenter.finishOrderTotal}}</p></li>
+            <li><p>平均满意度</p><p>{{userCenter.engineerGrade}}分</p></li>
+          </ul>
+        </div>
+
+      <div class="list">
+        <a class="item-icon-right1" ng-if="userCenter.engineerState == 'e_a_s_wait_submit'" ui-sref="completeMaterial({editType:'all'})">
+          基本信息<i class="ion-ios-arrow-right"></i>
+        </a>
+        <a class="item-icon-right1" ng-if="userCenter.engineerState != 'e_a_s_wait_submit'"  ui-sref="basicInfo({engineerState:engineerState})">
+          基本信息<i class="ion-ios-arrow-right"></i>
+        </a>
+
+        <a class="item-icon-right2" ui-sref="bankCardInfo">
+          银行卡信息<i class="ion-ios-arrow-right"></i>
+        </a>
+        <a class="item-icon-right3">
+          我的收入<i class="ion-ios-arrow-right"></i>
+        </a>
+        <a class="item-icon-right4" ui-sref="setUp">
+          设置<i class="ion-ios-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </ion-content>
+</ion-view>

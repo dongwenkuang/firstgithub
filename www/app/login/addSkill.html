@@ -1,0 +1,29 @@
+<ion-modal-view id="timeBox" view-title="完善资料" >
+  <ion-header-bar class="bar bar-header bar-positive">
+    <h1 class="title">完善资料</h1>
+  </ion-header-bar>
+  <form>
+    <div class="bar bar-subheader addSkill">
+      <button class="button button-clear" ng-click="cancelModal()">取消</button>
+      <button class="button button-clear" ng-click="saveSkill()">完成</button>
+    </div>
+    <ion-content class="has-subheader">
+      <div class="addSkill-content">
+        <div class="addSkill-service-type">
+          <p>请选择服务类别(单选)</p>
+          <label class="item-radio" ng-repeat="item in serveTypeList">
+            <input type="radio" name="serviceType" ng-model="skillList.serverType" value="{{item.id}}"><div class="item-content">{{item.name}}</div>
+          </label>
+        </div>
+        <div class="addSkill-product-type">
+          <p>请选择产品类别(可以多选)</p>
+          <div ng-repeat="item in serveTypeList track by $index" ng-if="skillList.serverType == item.id">
+            <label class="item-checkbox" ng-repeat="productItem in productType">
+              <input type="checkbox" name="productType" ng-model="skillList.productType[item.id+'-'+productItem.id]"  ng-true-value="{{productItem}}"><div class="item-content">{{productItem.name}}</div>
+            </label>
+          </div>
+        </div>
+      </div>
+    </ion-content>
+  </form>
+</ion-modal-view>

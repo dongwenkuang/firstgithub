@@ -1,0 +1,50 @@
+<ion-view view-title="消息中心" class="newsWrp">
+  <ion-nav-buttons side="right">
+    <button class="button-icon icon timeChoose-icon" ng-click="showNewsLimit()"></button>
+  </ion-nav-buttons>
+  <div class="bar bar-subheader news-subheader">
+    <span class="news-subheader-btn" ng-class="{1:'active'}[state]" ng-click="toggleType(1)">未读消息</span>
+    <span class="news-subheader-btn" ng-class="{2:'active'}[state]" ng-click="toggleType(2)">已读消息</span>
+    <i class="news-subheader-mark" ng-class="{2:'left_1'}[state]"></i>
+  </div>
+
+  <div class="newsbackground" ng-show="showNewsLimitWrp">
+    <label>
+      <input type="radio" ng-value="0" ng-model="time" name="news-time-limit" ng-click="loadNews(time)">
+      <span class="select_type">全部(默认)</span>
+    </label>
+    <label>
+      <input type="radio"  ng-value="1" ng-model="time"  name="news-time-limit" ng-click="loadNews(time)">
+      <span>今天</span>
+    </label>
+    <label>
+      <input type="radio"  ng-value="2" ng-model="time"  name="news-time-limit" ng-click="loadNews(time)">
+      <span>一周以内</span>
+    </label>
+    <label>
+      <input type="radio"  ng-value="3" ng-model="time"  name="news-time-limit" ng-click="loadNews(time)">
+      <span>一周以外</span>
+    </label>
+  </div>
+
+  <ion-content class="has-subheader backg">
+    <ion-refresher on-refresh="doRefresh()" pulling-text="下拉刷新页面" refreshing-text="数据已更新!" refreshing-icon="ion-loading-a"></ion-refresher>
+    <div class="newslist">
+      <div class="new_list" ng-repeat="newsList in newsData.msgList">
+        <div class="new_top">
+          <div class="news_image"  ng-if="state == 1"></div>
+          <div class="top_detail">
+            <span>
+              {{newsList.fisrtMsg}}(<span ng-click="go(newsList,$index)">{{newsList.orderId}}</span>){{newsList.LastMsg}}
+            </span>
+          </div>
+        </div>
+        <div class="new_bottom">
+          <span>{{newsList.msgTime}}</span>
+          <button ng-if="state == 1" ng-click="markRead(newsList,$index)">标记为已读</button>
+        </div>
+      </div>
+    </div>
+    <ion-infinite-scroll ng-if="moreData" on-infinite="loadMoreData()" immediate-check="false"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>

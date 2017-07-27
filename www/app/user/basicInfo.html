@@ -1,0 +1,83 @@
+<ion-view view-title="基本资料" hide-back-button="false">
+    <ion-nav-buttons side="right">
+      <!-- <button class="button button-clear" ui-sref="completeMaterial({editType:editType})" ng-if="editType">编辑</button> -->
+      <button class="button button-clear" ng-if="editType"  ui-sref="completeMaterial({editType:editType})">编辑</button>
+    </ion-nav-buttons>
+    <ion-content class="completeMaterial">
+      <div class="complete-form-top">
+          <div class="complete-input-row">
+            <label>姓名</label>
+            <span class="basicShowSpan">{{fullInfo.engineerName}}</span>
+          </div>
+          <div class="complete-input-row">
+            <label>身份证号码</label>
+            <span class="basicShowSpan">{{fullInfo.engineerIdentityNo}}</span>
+          </div>
+          <div class="complete-input-row">
+            <label>性别</label>
+            <span class="basicShowSpan">{{fullInfo.sex}}</span>
+          </div>
+          <div class="complete-input-row" ng-click="showAreaBoxBtn(0)">
+            <label>所在区域</label>
+            <span class="basicShowSpan">{{fullInfo.engineerProvince.name+fullInfo.engineerCity.name+fullInfo.engineerRegion.name}}</span>
+          </div>
+          <div class="complete-input-row">
+            <label>详细地址</label>
+            <span class="basicShowSpan">{{fullInfo.engineerAddress}}</span>
+          </div>
+      </div>
+      <div class="complete-form-middle">
+          <div class="complete-input-row">
+            <label>紧急联系人</label>
+            <span class="basicShowSpan">{{fullInfo.mergencyContact}}</span>
+          </div>
+          <div class="complete-input-row">
+            <label>紧急联系电话</label>
+            <span class="basicShowSpan">{{fullInfo.mergencyContactPhone}}</span>
+          </div>
+      </div>
+      <div class="complete-form-foot">
+          <div class="complete-input-row" ng-click="showAreaBoxBtn(1)">
+            <label>服务区域</label>
+            <span class="basicShowSpan">
+              {{fullInfo.engineerServeProvince.name+fullInfo.engineerServeCity.name}}-
+              <b ng-repeat="item in fullInfo.engineerServeRegion">{{item.name}}</b>
+            </span>
+          </div>
+          <div class="complete-input-row"><label>服务技能</label></div>
+          <div class="basicinfo-skill">
+            <div ng-repeat="item in formatSkillList">
+              <label>{{item.name}}</label>
+              <ul>
+                <li ng-repeat="produc in item.list">{{produc.name}}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="complete-input-row" ng-click="choosePic(3)">
+            <label>头像</label>
+            <img class="user-img1 user-img2" ng-src="{{fullInfo.engineerPortrait.fastSrc}}">
+          </div>
+          <div class="complete-input-row cardWrp">
+            <label>证件照片</label>
+          </div>
+          <div class="card-wrap">
+            <div class="card-wrap-line"></div>
+            <div class="card-content">
+              <div class="engineerFrontImageBox">
+                <img ng-src="{{fullInfo.engineerFront.fastSrc}}">
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="engineerReverseBox">
+                <img ng-src="{{fullInfo.engineerReverse.fastSrc}}">
+              </div>
+            </div>
+            <div class="card-content">
+              <div class="engineerHoldBox">
+                <img ng-src="{{fullInfo.engineerHold.fastSrc}}">
+              </div>
+            </div>
+        </div>
+      </div>
+    </ion-content>
+</ion-view>

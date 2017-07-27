@@ -1,0 +1,50 @@
+<ion-view view-title="待接工单" hide-back-button="false" class="doOrder">
+  <div class="bar bar-subheader doOrder-subheader">
+    <div class="todayReceiveNum">
+      <span>今日已接</span>
+      <span>{{todayReceiveNum}}单</span>
+    </div>
+  </div>
+  <ion-content class="has-subheader" direction="y">
+    <ion-refresher on-refresh="doRefresh()" pulling-text="下拉刷新页面" refreshing-text="数据已更新!" refreshing-icon="ion-loading-a"></ion-refresher>
+    <ul class="orderList">
+      <li ng-repeat="item in orderListData.orderList">
+        <div class="order-list-top">
+          <span ng-click="goOrderDetail(item.orderId)">
+            单号：<span class="orderNo">{{item.orderId}}</span><i class="ion-ios-arrow-right"></i>
+          </span>
+          <span ng-if="!item.refuseOrder"><span class="orderStaus">{{countHour(item)}}:{{countMinute(item)}}:{{countSecond(item)}}</span></span>
+          <span ng-if="item.refuseOrder"><span class="orderStaus">00:00:00</span></span>
+        </div>
+        <div class="task" ng-repeat="taskInfo in item.jobList">
+          <div class="task-left">
+            任务{{$index+1}}：
+          </div>
+          <div class="task-right">
+            <span class="task-right-top">
+              <span>{{taskInfo.type}}</span>
+              <span>数量：{{taskInfo.number}}</span>
+            </span>
+            <span>
+              {{taskInfo.label}}
+            </span>
+          </div>
+        </div>
+        <div class="order-list-mid">
+          <div>
+            <span class="order-list-title">地址：</span>
+            <span>{{item.contactsProvince}}{{item.contactsCity}}{{item.contactsRegion}}{{item.contactsAddress}}</span>
+          </div>
+          <div>联系人：{{item.contactsName}}</div>
+          <div>电话：{{item.contactsPhone}}</div>
+          <a class="orderTel" href="tel:{{item.contactsPhone}}"></a>
+        </div>
+        <div class="order-button">
+          <button ng-click="refuseOrder(item,$index)">拒绝</button>
+          <button ng-click="acceptOrder(item,$index)">接单</button>
+        </div>
+      </li>
+      <ion-infinite-scroll ng-if="moreData" on-infinite="loadMoreData()" immediate-check="false"></ion-infinite-scroll>
+    </ul>
+  </ion-content>
+</ion-view>

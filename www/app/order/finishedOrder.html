@@ -1,0 +1,62 @@
+<ion-view view-title="完工单查询" hide-back-button="false">
+  <div class="bar bar-subheader finished-subheader">
+    <span class="finished-subheader-btn" ng-class="{0:'active'}[type]" ng-click="toggleType(0,'w_o_s_has_complate')">已完成工单</span>
+    <span class="finished-subheader-btn" ng-class="{1:'active'}[type]" ng-click="toggleType(1,'w_o_s_has_cancel')">已取消工单</span>
+    <i class="finished-subheader-mark" ng-class="{1:'left_1'}[type]"></i>
+  </div>
+  <ion-content class="has-subheader finishedOrderWrp">
+    <ion-refresher on-refresh="doRefresh()" pulling-text="下拉刷新页面" refreshing-text="数据已更新!" refreshing-icon="ion-loading-a"></ion-refresher>
+    <ul class="orderList">
+      <li ng-repeat="item in orderListData.orderList">
+        <div class="order-list-top" ng-click="goOrderDetail(item.orderId)">
+          <span>
+            单号：
+            <span class="orderNo">{{item.orderId}}</span>
+          </span>
+          <i class="ion-ios-arrow-right"></i>
+        </div>
+        <div class="task" ng-repeat="taskInfo in item.jobList">
+          <div class="task-left">
+            任务{{$index+1}}：
+          </div>
+          <div class="task-right">
+            <span class="task-right-top">
+              <span>{{taskInfo.type}}</span>
+              <span>数量：{{taskInfo.number}}</span>
+            </span>
+            <span>
+              {{taskInfo.label}}
+            </span>
+          </div>
+        </div>
+        <div class="order-list-mid">
+          <div>
+            <span class="order-list-title">地址：</span>
+            <span>{{item.contactsProvince}}{{item.contactsCity}}{{item.contactsRegion}}{{item.contactsAddress}}</span>
+          </div>
+          <div>联系人：{{item.contactsName}}</div>
+          <div>电话：{{item.contactsPhone}}</div>
+        </div>
+        <div class="order-list-foot">
+          <div ng-if="item.diagnosis">
+            <span class="order-list-title">故障描述：</span>
+            <span>{{item.diagnosis}}</span>
+          </div>
+          <div ng-if="type == 0">完工时间：{{item.stateTimeFirst}}&nbsp;{{item.stateTimeLast}}</div>
+          <div ng-if="type == 1">取消时间：{{item.stateTimeFirst}}&nbsp;{{item.stateTimeLast}}</div>
+          <div ng-if="type == 1">
+            <span class="order-list-title">取消原因：</span>
+            <span>{{item.cancelReason}}</span>
+          </div>
+        </div>
+        <div class="order-note" ng-if="item.remark">
+          <div>
+            <span class="order-list-title">备忘：</span>
+            <span>{{item.remark}}</span>
+          </div>
+        </div>
+      </li>
+    </ul>
+    <ion-infinite-scroll ng-if="moreData" on-infinite="loadMoreData({{tabIndex}})" immediate-check="false"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,34 @@
+<ion-view view-title="找回密码" hide-back-button="false">
+    <ion-scroll class="forgotPsd-scroll" direction="y">
+        <form class="forgot_pwd regNext">
+            <ul>
+                <li>
+                    <div class="register_tel">
+                        <input class="register_input" type="number" name="tel" id="forgot_tel" placeholder="手机号" ng-model='forgetForm.telephone' oninput="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                        <i ng-if="forgetForm.telephone" ng-click="FpswClear('telephone')"></i>
+                    </div>
+                </li>
+                <li class="register_li_verify">
+                    <div class="register_code">
+                        <input class="register_input" type="number" name="code" id="forgot_code" placeholder="验证码" ng-model='forgetForm.code' oninput="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                        <i ng-if="forgetForm.code" ng-click="FpswClear('code')"></i>
+                    </div>
+                    <button type="button" class="register_verify" id="forgot_verify" ng-click="sendSms()" ng-disabled="sendSmsDisabled" ng-style="{ backgroundColor: sendSmsFlag ? '#bbbbbb' : '#ff6537' }"><span ng-bind="serverTime">发送验证码</span><span ng-if="sendSmsFlag">s</span></button>
+                </li>
+                <li>
+                    <div class="register_password">
+                        <input class="register_input" type="password" name="password" id="forgot_pwd" placeholder="新密码(密码为6位数字)" ng-model='forgetForm.newPassword' oninput="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                        <i ng-if="forgetForm.newPassword" ng-click="FpswClear('newPassword')"></i>
+                    </div>
+                </li>
+                <li>
+                    <div class="register_confirm">
+                        <input class="register_input" type="password" name="password" id="forgot_confirm" placeholder="确认新密码(密码为6位数字)" ng-model='forgetForm.repassword' oninput="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+                        <i ng-if="forgetForm.repassword" ng-click="FpswClear('repassword')"></i>
+                    </div>
+                </li>
+            </ul>
+            <button class="button button-block button-positive" id="forgot_finish" ng-click="submitFpsw()">完成</button>
+        </form>
+    </ion-scroll>
+</ion-view>

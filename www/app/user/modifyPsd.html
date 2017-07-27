@@ -1,0 +1,27 @@
+<ion-view view-title="修改密码" hide-back-button="false">
+  <ion-scroll class="modifyPsd-scroll" direction="y">
+    <form class="modifyPsd">
+      <ul>
+        <li>
+          <div class="old_password">
+            <input class="old_pass_input" type="password" name="old_pass" id="modify_old_pass" placeholder="原密码(密码为6位数字)" ng-model="modify.oldPassword"  oninput="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('password',clipboardData.getData('password').replace(/[^\d]/g,''))">
+            <i ng-if="modify.oldPassword" ng-click="modifyClears('oldPassword')"></i>
+          </div>
+        </li>
+        <li>
+          <div class="new_password">
+            <input class="new_pass_input" type="password" name="new_pass" id="modify_new_pass" placeholder="新密码(密码为6位数字)" ng-model="modify.newPassword" oninput="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('password',clipboardData.getData('password').replace(/[^\d]/g,''))">
+            <i ng-if="modify.newPassword" ng-click="modifyClears('newPassword')"></i>
+          </div>
+        </li>
+        <li>
+          <div class="pass_confirm">
+            <input class="confirm_pass_input" type="password" name="comfirm_pass" id="modify_comfirm_pass" placeholder="确认新密码(密码为6位数字)" ng-model="modify.repassword" oninput="this.value=this.value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('password',clipboardData.getData('password').replace(/[^\d]/g,''))">
+            <i  ng-if="modify.repassword" ng-click="modifyClears('repassword')"></i>
+          </div>
+        </li>
+      </ul>
+      <button class="button button-block button-positive" id="modify_pass" ng-click="modifyPssword()">完成</button>
+    </form>
+  </ion-scroll>
+</ion-view>

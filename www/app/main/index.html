@@ -1,0 +1,70 @@
+<ion-view view-title="" hide-back-button="true" class="mainWrp">
+  <ion-content>
+    <ul class="main-user-info">
+      <li ng-click="goNext('news')">
+        <i class="main-msg">
+          <i class="msg-num" ng-if="indexInfo.msgNum"><span>{{indexInfo.msgNum}}</span></i>
+        </i>
+        <p class="main-small-text">消息中心</p>
+      </li>
+      <li>
+        <img class="main-user-img" ng-if="indexInfo.engineerState === 'e_a_s_wait_submit' && visitedComp != token" ui-sref="completeMaterial({editType:'all'})" ng-src="{{indexInfo.portraitSrc}}">
+        <img class="main-user-img" ng-if="indexInfo.engineerState !== 'e_a_s_wait_submit' || visitedComp == token" ui-sref="userCenter({engineerState:engineerState})" ng-src="{{indexInfo.portraitSrc}}">
+      </li>
+      <li>
+        <label class="toggle toggle-positive main-user-toggle">
+          <input type="checkbox" ng-model="indexInfo.serveStateReset" ng-click="serveStateChange()" ng-disabled="toggleServeState">
+          <div class="track">
+            <div class="handle"></div>
+          </div>
+        </label>
+        <p class="main-small-text m-t-8">是否接单</p>
+      </li>
+    </ul>
+    <div class="user-info-bottom">
+      <p class="main-user-name">{{indexInfo.engineerName}}</p>
+      <div class="main-user-star-box">
+        <div class="main-user-star">
+          <div class="main-user-star-gray">
+            <div class="main-user-star-org" style="width:{{starWidth}}px"></div>
+          </div>
+        </div>
+        <span ng-if="indexInfo.engineerGrade > 0">{{indexInfo.engineerGrade}}分</span>
+      </div>
+    </div>
+    <ul class="today-data">
+      <li class="today-order">
+        <span>今日完工</span>
+        <span class="today-data-num">{{indexInfo.todayFinishNumber}}</span>
+        <span>个</span>
+      </li>
+      <li class="today-money">
+        <span>今日收益</span>
+        <span class="today-data-num">{{indexInfo.todayEarnings}}</span>
+        <span>元</span>
+      </li>
+    </ul>
+    <!--<ul class="home-ul">-->
+      <!--<li>-->
+        <!--<div class="main-wait-order" ng-click="goNext('doOrder')" ui-sref="doOrder"></div>-->
+        <!--<div class="main-my-income"></div>-->
+      <!--</li>-->
+      <!--<li>-->
+        <!--<div class="main-unfinished-order" ng-click="goNext('unfinishedOrder')" ui-sref="unfinishedOrder"></div>-->
+        <!--<div class="main-pending-order"></div>-->
+        <!--<div class="main-finish-order" ng-click="goNext('finishedOrder')" ui-sref="finishedOrder"></div>-->
+      <!--</li>-->
+    <!--</ul>-->
+    <ul class="home-ul">
+      <li>
+        <div class="main-wait-order" ng-click="goNext('doOrder')"></div>
+        <div class="main-my-income"></div>
+      </li>
+      <li>
+        <div class="main-unfinished-order" ng-click="goNext('unfinishedOrder')"></div>
+        <div class="main-pending-order" ng-click="goNext('hangupOrder')"></div>
+        <div class="main-finish-order" ng-click="goNext('finishedOrder')"></div>
+      </li>
+    </ul>
+  </ion-content>
+</ion-view>

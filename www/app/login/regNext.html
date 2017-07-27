@@ -1,0 +1,34 @@
+<ion-view view-title="注册" hide-back-button="false">
+  <ion-scroll class="register-scroll" direction="y">
+    <form class="regNext">
+      <ul>
+        <li>
+          <div class="register_tel">
+            <input class="register_input" type="number" name="tel" id="register_tel" placeholder="手机号" ng-model='reg.userId' oninput="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            <i ng-if="reg.userId" ng-click="regClears('userId')"></i>
+          </div>
+        </li>
+        <li class="register_li_verify">
+          <div class="register_code">
+            <input class="register_input" type="number" name="code" id="register_code" placeholder="验证码" ng-model='reg.authCode' maxlength="6" oninput="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            <i ng-if="reg.authCode" ng-click="regClears('authCode')"></i>
+          </div>
+            <button type="button" class="register_verify" id="register_verify" ng-click="sendSms()" ng-disabled="sendSmsDisabled" ng-style="{ backgroundColor: sendSmsFlag ? '#bbbbbb' : '#ff6537' }"><span ng-bind="serverTime">发送验证码</span><span ng-if="sendSmsFlag">s</span></button>
+        </li>
+        <li>
+          <div class="register_password">
+            <input class="register_input" type="password" name="password" id="register_pwd" placeholder="密码(密码为6位数字)" ng-model='reg.password' oninput="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            <i ng-if="reg.password" ng-click="regClears('password')"></i>
+          </div>
+        </li>
+        <li>
+          <div class="register_confirm">
+            <input class="register_input" type="password" name="password" id="register_confirm" placeholder="确认密码(密码为6位数字)" ng-model='reg.repassword' oninput="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')">
+            <i  ng-if="reg.repassword" ng-click="regClears('repassword')"></i>
+          </div>
+        </li>
+      </ul>
+      <button class="button button-block button-positive" id="register_finish" ng-click="userRegister()">注册完成</button>
+    </form>
+  </ion-scroll>
+</ion-view>

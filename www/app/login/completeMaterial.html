@@ -1,0 +1,212 @@
+<ion-view class="completeMaterial">
+  <ion-nav-title>{{title}}</ion-nav-title>
+  <ion-nav-buttons side="right">
+    <button class="button button-clear" ng-if="!isAllEdit" ng-click="submitInfo()">保存</button>
+  </ion-nav-buttons>
+
+  <!--所在区域-->
+  <div class="city-area-wrp" ng-if="showAreaBox" ng-click="hideAreaBox()"></div>
+  <div class="city-area-content" ng-class="{'active':showAreaBox}">
+    <form ng-if="single">
+      <div class="city-area-content-top">
+        所在区域
+        <i class="ion-ios-close-empty" ng-click="hideAreaBox()"></i>
+      </div>
+      <div class="city-area-mid">
+        <button ng-click="showAreaBoxSave(0)">保存</button>
+        <span></span>
+      </div>
+      <div class="city-main-top">
+        <a ng-show="areaRegionTempLabel.province" ng-click="activeTab(0)" ng-class="tabIndex == 0 ? 'active' : '' ">
+          {{areaRegionTempLabel.province}}
+        </a>
+        <a ng-show="areaRegionTempLabel.city" ng-click="activeTab(1)" ng-class="tabIndex == 1 ? 'active' : '' ">
+          {{areaRegionTempLabel.city}}
+        </a>
+        <a ng-show="areaRegionTempLabel.area" ng-click="activeTab(2)" ng-class="tabIndex == 2 ? 'active' : '' ">
+          {{areaRegionTempLabel.area}}
+        </a>
+        <span ng-if="areaSelected" ng-class="{'activeA mark':markShow}" ng-click="activeTab(site,1)">请选择</span>
+      </div>
+      <ion-slide-box show-pager="false" class="city-main-foot" active-slide=tabIndex ng-init="disableSwipe()">
+        <ion-slide class="province-picker">
+          <label ng-repeat="item in engineerProvinceList">
+            {{item.name}}
+            <input type="radio" ng-model='choose.engineerProvince' value="{{item.id}}" ng-click="slideTo(tabIndex,'province',item)">
+          </label>
+        </ion-slide>
+        <ion-slide class="city-picker">
+          <label ng-repeat="item in engineerCityList">
+            {{item.name}}<input type="radio" ng-model='choose.engineerCity' value="{{item.id}}" ng-click="slideTo(tabIndex,'city',item)">
+          </label>
+        </ion-slide>
+        <ion-slide class="area-picker">
+          <label ng-repeat="item in engineerRegionList">
+            {{item.name}}<input type="radio" ng-model='choose.engineerRegion' value="{{item.id}}" ng-change="RegionCg(item.name)">
+          </label>
+        </ion-slide>
+      </ion-slide-box>
+    </form>
+    <form ng-if="multiple">
+      <div class="city-area-content-top">
+        服务区域
+        <i class="ion-ios-close-empty" ng-click="hideAreaBox()"></i>
+      </div>
+      <div class="city-area-mid">
+        <button ng-click="showAreaBoxSave(1)">保存</button>
+        <span>区域可多选</span>
+      </div>
+      <div class="city-main-top">
+        <a ng-show="areaServerTempLabel.province" ng-click="activeTab(0)" ng-class="tabIndex == 0 ? 'active' : '' ">
+          {{areaServerTempLabel.province}}
+        </a>
+        <a ng-show="areaServerTempLabel.city" ng-click="activeTab(1)" ng-class="tabIndex == 1 ? 'active' : '' ">
+          {{areaServerTempLabel.city}}
+        </a>
+        <a ng-show="areaServerTempLabel.area" ng-click="activeTab(2)" ng-class="tabIndex == 2 ? 'active' : '' ">
+          {{areaServerTempLabel.area}}
+        </a>
+        <span ng-if="areaSelected" ng-class="{'activeA mark':markShow}" ng-click="activeTab(site,1)">请选择</span>
+      </div>
+      <ion-slide-box show-pager="false" class="city-main-foot" active-slide=tabIndex ng-init="disableSwipe()">
+        <ion-slide class="province-picker">
+          <label ng-repeat="item in engineerServerProvinceList">
+            {{item.name}}<input type="radio" ng-model='choose.engineerServerProvince' value="{{item.id}}" ng-click="slideTo(tabIndex,'province',item)">
+          </label>
+        </ion-slide>
+        <ion-slide class="city-picker">
+          <label ng-repeat="item in engineerServerCityList">
+            {{item.name}}<input type="radio" ng-model='choose.engineerServerCity' value="{{item.id}}" ng-click="slideTo(tabIndex,'city',item)">
+          </label>
+        </ion-slide>
+        <ion-slide class="area-picker">
+          {{choose.engineerServeRegion}}
+          <label ng-repeat="item in engineerServerRegionList">
+            {{item.name}}<input type="checkbox" ng-model='choose.engineerServerRegion[item.id]' ng-true-value="'{{item.id}}'" ng-change="ServerCg(item)">
+          </label>
+        </ion-slide>
+      </ion-slide-box>
+    </form>
+  </div>
+
+  <ion-scroll class="mobile-scroll" direction="y" ng-class="isAllEdit ? 'has-footer':''">
+    <div class="complete-tip-top" ng-if="isAllEdit">
+      <span style="">提示：请提交身份证等个人资料，通过后台认证后才可以正常使用接单等功能</span>
+    </div>
+    <form class="complete-form">
+      <div class="complete-form-top">
+        <div class="complete-input-row">
+          <label>姓名</label>
+          <input type="text" ng-model="form.engineerName" placeholder="请填写真实姓名" ng-readonly="!isAllEdit">
+          <i class="ion-ios-information" ng-if="submitFlag && !form.engineerName"></i>
+        </div>
+        <div class="complete-input-row">
+          <label>身份证号码</label>
+          <input type="number" ng-model="form.engineerIdentityNo" placeholder="请填写本人身份证号码" ng-readonly="!isAllEdit">
+          <i class="ion-ios-information" ng-if="submitFlag && !form.engineerIdentityNo"></i>
+        </div>
+        <div class="complete-input-row">
+          <label>性别</label>
+          <label class="label-radio" ng-if="isAllEdit"><input type="radio" ng-model="form.sex" value="男" name="sex" checked>男</label>
+          <label class="label-radio" ng-if="isAllEdit"><input type="radio" ng-model="form.sex" value="女" name="sex">女</label>
+          <i class="ion-ios-information" ng-if="submitFlag && !form.sex"></i>
+          <span class="basicShowSpan" ng-if="!isAllEdit">{{form.sex}}</span>
+        </div>
+        <div class="complete-input-row" ng-click="showAreaBoxBtn(0)">
+          <label>所在区域</label>
+          <span data-title="请选择您的所在区域">{{areaRegionShow}}</span>
+          <i class="ion-ios-arrow-right"></i>
+          <i class="ion-ios-information" ng-if="submitFlag && !areaRegionShow"></i>
+        </div>
+        <div class="complete-input-row">
+          <label>详细地址</label>
+          <input type="text" ng-model="form.engineerAddress" placeholder="请填写详细地址">
+          <i class="ion-ios-information" ng-if="submitFlag && !form.engineerAddress"></i>
+        </div>
+      </div>
+      <div class="complete-form-middle">
+        <div class="complete-input-row">
+          <label>紧急联系人</label>
+          <input type="text" ng-model="form.mergencyContact" placeholder="请填写联系人姓名">
+          <i class="ion-ios-information" ng-if="submitFlag && !form.mergencyContact"></i>
+        </div>
+        <div class="complete-input-row">
+          <label>紧急联系电话</label>
+          <input type="number" ng-model="form.mergencyContactPhone" placeholder="请填写联系人电话">
+          <i class="ion-ios-information" ng-if="submitFlag && !form.mergencyContactPhone"></i>
+        </div>
+      </div>
+      <div class="complete-form-foot">
+        <div class="complete-input-row" ng-click="showAreaBoxBtn(1)">
+          <label>服务区域</label>
+          <span data-title="请选择您想要服务的区域">{{areaServerShow}}</span>
+          <i class="ion-ios-arrow-right"></i>
+          <i class="ion-ios-information" ng-if="submitFlag && !areaServerShow"></i>
+        </div>
+        <div class="complete-input-row" ng-click="SkillModalShow()">
+          <label>服务技能</label>
+          <span ng-if="!formatSkillListLength" data-title="请添加您的技能"></span>
+          <i class="ion-ios-plus-outline" ng-if="!formatSkillListLength"></i>
+          <i class="ion-ios-arrow-right" ng-if="formatSkillListLength"></i>
+          <i class="ion-ios-information" ng-if="submitFlag && !formatSkillListLength"></i>
+        </div>
+        <div class="basicinfo-skill" ng-if="formatSkillListLength">
+          <div ng-repeat="item in MaterialformatSkillList" ng-if="item.list.length>0">
+            <label>{{item.name}}</label>
+            <ul>
+              <li ng-repeat="produc in item.list">
+                {{produc.name}}
+                <i class="ion-ios-minus-empty" ng-click="removeSkill(item.id,item.name,produc)"></i>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="complete-input-row" ng-click="choosePic(3)">
+          <label>头像</label>
+          <span ng-if="!userImg && isAllEdit" data-title="必须上传本人头像"></span>
+          <img class="user-img1" ng-src="{{userImg}}" ng-if="userImg && isAllEdit">
+          <img class="user-img2" ng-src="{{userImg}}" ng-if="userImg && !isAllEdit">
+          <i class="user-img" ng-if="!userImg && isAllEdit"></i>
+          <i class="ion-ios-arrow-right" ng-if="isAllEdit"></i>
+          <i class="ion-ios-information" ng-if="submitFlag && !userImg"></i>
+        </div>
+        <div class="complete-input-row cardWrp">
+          <label>证件照片</label>
+        </div>
+        <div class="card-wrap">
+          <div class="card-content">
+            <div class="take-photo-tip" ng-if="!form.engineerFront && isAllEdit">请上传身份证正面照</div>
+            <div class="engineerFrontImageBox" ng-if="form.engineerFront">
+              <img ng-src="{{form.engineerFront.fastSrc}}">
+              <i ng-click="deleteImages(0)" class="ion-android-remove-circle" ng-if="isAllEdit"></i>
+            </div>
+            <i ng-if="!form.engineerFront" class="take-photo" ng-click="choosePic(0)"></i>
+            <i class="ion-ios-information" ng-if="submitFlag && !form.engineerFront.fastSrc"></i>
+          </div>
+          <div class="card-content">
+            <div class="take-photo-tip" ng-if="!form.engineerReverse && isAllEdit">请上传身份证反面照</div>
+            <div class="engineerReverseBox" ng-if="form.engineerReverse">
+              <img ng-src="{{form.engineerReverse.fastSrc}}">
+              <i ng-click="deleteImages(1)" class="ion-android-remove-circle" ng-if="isAllEdit"></i>
+            </div>
+            <i ng-if="!form.engineerReverse" class="take-photo" ng-click="choosePic(1)"></i>
+            <i class="ion-ios-information" ng-if="submitFlag && !form.engineerReverse.fastSrc"></i>
+          </div>
+          <div class="card-content">
+            <div class="take-photo-tip" ng-if="!form.engineerHold && isAllEdit">请上传手持身份证照片</div>
+            <div class="engineerHoldBox" ng-if="form.engineerHold">
+              <img ng-src="{{form.engineerHold.fastSrc}}">
+              <i ng-click="deleteImages(2)" class="ion-android-remove-circle" ng-if="isAllEdit"></i>
+            </div>
+            <i ng-if="!form.engineerHold" class="take-photo" ng-click="choosePic(2)"></i>
+            <i class="ion-ios-information" ng-if="submitFlag && !form.engineerHold.fastSrc"></i>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ion-scroll>
+
+  <div class="bar bar-footer" ng-if="isAllEdit">
+    <button class="button button-positive complete-save-btn" ng-click="submitInfo()">提交保存</button>
+  </div>
+</ion-view>

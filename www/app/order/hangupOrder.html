@@ -1,0 +1,65 @@
+<ion-view view-title="挂起工单" hide-back-button="false">
+  <ion-content>
+    <ion-refresher on-refresh="doRefresh()" pulling-text="下拉刷新页面" refreshing-text="数据已更新!" refreshing-icon="ion-loading-a"></ion-refresher>
+    <ul class="orderList hangup">
+      <li ng-repeat="item in orderListData.orderList">
+        <div class="order-list-top">
+          <span ng-click="goOrderDetail(item.orderId)">
+            单号：
+            <span class="orderNo">{{item.orderId}}</span>
+            <i class="ion-ios-arrow-right"></i>
+          </span>
+          <span ng-if="item.issueTitle" class="orderStaus">{{item.issueTitle}}</span>
+        </div>
+        <div class="task" ng-repeat="taskInfo in item.jobList">
+          <div class="task-left">
+            任务{{$index+1}}：
+          </div>
+          <div class="task-right">
+            <span class="task-right-top">
+              <span>{{taskInfo.type}}</span>
+              <span>数量：{{taskInfo.number}}</span>
+            </span>
+            <span>
+              {{taskInfo.label}}
+            </span>
+          </div>
+        </div>
+        <div class="order-list-mid">
+          <div>
+            <span class="order-list-title">地址：</span>
+            <span>{{item.contactsProvince}}{{item.contactsCity}}{{item.contactsRegion}}{{item.contactsAddress}}</span>
+          </div>
+          <div>联系人：{{item.contactsName}}</div>
+          <div>电话：{{item.contactsPhone}}</div>
+          <a class="orderTel" href="tel:{{item.contactsPhone}}"></a>
+        </div>
+        <div class="order-list-foot" ng-if="item.diagnosis || item.clientIntentionTime || item.stateTime || item.appointmentDate || item.appointmentTime">
+          <div ng-if="item.diagnosis">
+            <span class="order-list-title">故障描述:</span>
+            <span>{{item.diagnosis}}</span>
+          </div>
+          <div ng-if="item.clientIntentionTime">客户意向时间：{{item.clientIntentionTimeFirst}}&nbsp;{{item.clientIntentionTimeLast}}</div>
+          <div ng-if="state == 'w_o_s_wait_appointment' && item.stateTime">接单时间：{{item.stateTimeFirst}}&nbsp;{{item.stateTimeLast}}</div>
+          <div ng-if="item.appointmentDate || item.appointmentTime" ng-click="showServerTime(item.orderId)">
+            <span class="orderDetail-note">服务时间：{{item.appointmentDate}}&nbsp;&nbsp;{{item.appointmentTime}}</span>
+            <i class="edit-time"></i>
+          </div>
+          <div ng-if="state == 'w_o_s_wait_complate' && item.stateTime">签到时间：{{item.stateTimeFirst}}&nbsp;{{item.stateTimeLast}}</div>
+        </div>
+        <div class="order-note" ng-click="goMemo(item.orderId,item.remark)">
+          <div>
+            <span class="order-list-title">备忘:</span>
+            <span class="orderDetail-note" ng-if="item.remark">{{item.remark}}</span>
+            <span class="orderDetail-note noRemark" ng-if="!item.remark">可以填写备忘哦！</span>
+            <i class="edit-time"></i>
+          </div>
+        </div>
+        <div class="order-button">
+          <button  ui-sref="completeOrder({orderId:item.orderId})">拍照完工</button>
+        </div>
+      </li>
+    </ul>
+    <ion-infinite-scroll ng-if="moreData" on-infinite="loadMoreData({{tabIndex}})" immediate-check="false"></ion-infinite-scroll>
+  </ion-content>
+</ion-view>

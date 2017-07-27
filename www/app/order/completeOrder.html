@@ -1,0 +1,26 @@
+<ion-view view-title="拍照完工" class="completeOrderWrp">
+  <form>
+    <ion-content class="has-footer">
+      <div class="list">
+        <div class="tips">提示：最多拍摄3张照片</div>
+        <ul>
+          <li ng-repeat="image in completeOrderImages"  ng-if="completeOrderImages && completeOrderImages.length>0 ">
+          <span>
+            <img ng-src="{{image.fastSrc}}" >
+          </span>
+            <i ng-click="deleteImages($index)" class="ion-android-remove-circle"></i>
+          </li>
+          <li>
+          <span>
+            <i class="take-photo" ng-click="completeOrder()" ng-if="completeOrderImages.length < 3"></i>
+          </span>
+          </li>
+        </ul>
+      </div>
+    </ion-content>
+
+    <div class="bar bar-footer">
+      <button class="button button-positive" ng-click="submit()">提交</button>
+    </div>
+  </form>
+</ion-view>

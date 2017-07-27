@@ -1,0 +1,294 @@
+<ion-view view-title="工单详情" hide-back-button="false">
+
+  <!--签到-->
+  <div class="sign-wrp" ng-show="showBox.sign">
+    <div class="sign-content">
+      <div class="sign-content-top">
+        <span>签到验证码</span>
+        <span class="ion-ios-close-outline" ng-click="showBox.sign = !showBox.sign"></span>
+      </div>
+      <div class="sign-content-body">
+        <p class="sign-body-p1">请输入验证码:</p>
+        <div class="sign-yzm-box">
+          <input type="number" ng-model="signCode">
+          <button ng-click="signSendSms()" ng-disabled="sendSmsDisabled" ng-style="{ backgroundColor: sendSmsFlag ? '#bbbbbb' : '#ff6537' }"><span ng-bind="serverTime">发送验证码</span><span ng-if="sendSmsFlag">s</span></button>
+        </div>
+        <p class="sign-body-p2">点击“发送验证码”按钮，并向客户索要验证码</p>
+      </div>
+      <button class="sign-submit-btn" ng-click="submitSign()">确定</button>
+    </div>
+  </div>
+
+  <!--选择取消原因-->
+  <div class="cancelReason-wrp" ng-show="showBox.cancel">
+    <div class="cancelReason-content">
+      <div class="cancelReason-content-top">
+        <span>请选择取消原因</span>
+        <span class="ion-ios-close-outline" ng-click="showBox.cancel = !showBox.cancel"></span>
+      </div>
+      <form>
+        <ul class="cancelReason-content-body">
+          <li ng-repeat="reasonList in cancelReasonList.reason">
+            <label class="label-radio"><input type="checkbox" ng-model="cancelReason.reasonId[reasonList.id]">{{reasonList.name}}</label>
+          </li>
+          <li>
+            <label class="label-radio"><input type="checkbox" ng-model="cancelReason.other"  ng-true-value="true" ng-false-value="false" >其他原因</label>
+            <textarea ng-if="cancelReason.other" ng-model="cancelReason.reasonText"></textarea>
+          </li>
+        </ul>
+        <button class="cancelReason-submit-btn" ng-click="submitCancel()">确定</button>
+      </form>
+
+    </div>
+  </div>
+
+  <!--选择改派原因-->
+  <div class="cancelReason-wrp" ng-show="showBox.reassign">
+    <div class="cancelReason-content">
+      <div class="cancelReason-content-top">
+        <span>请选择改派申请原因</span>
+        <span class="ion-ios-close-outline" ng-click="showBox.reassign = !showBox.reassign"></span>
+      </div>
+      <form>
+        <ul class="cancelReason-content-body">
+          <li ng-repeat="reasonList in reassignReasonList.reason">
+            <label class="label-radio"><input type="checkbox" ng-model="reassignReason.reasonId[reasonList.id]">{{reasonList.name}}</label>
+          </li>
+          <li>
+            <label class="label-radio"><input type="checkbox" ng-model="reassignReason.other"  ng-true-value="true" ng-false-value="false">其他原因</label>
+            <textarea ng-if="reassignReason.other" ng-model="reassignReason.reasonText"></textarea>
+          </li>
+        </ul>
+        <button class="cancelReason-submit-btn" ng-click="submitReassign()">确定</button>
+      </form>
+    </div>
+  </div>
+
+  <!--选择挂起原因-->
+  <div class="cancelReason-wrp" ng-show="showBox.pend">
+    <div class="cancelReason-content">
+      <div class="cancelReason-content-top">
+        <span>请选择挂起原因</span>
+        <span class="ion-ios-close-outline" ng-click="showBox.pend = !showBox.pend"></span>
+      </div>
+      <form>
+        <ul class="cancelReason-content-body">
+          <li ng-repeat="reasonList in pendReasonList.reason">
+            <label class="label-radio"><input type="checkbox" ng-model="pendReason.reasonId[reasonList.id]">{{reasonList.name}}</label>
+          </li>
+          <li>
+            <label class="label-radio"><input type="checkbox" ng-model="pendReason.other"  ng-true-value="true" ng-false-value="false" >其他原因</label>
+            <textarea ng-if="pendReason.other" ng-model="pendReason.reasonText"></textarea>
+          </li>
+        </ul>
+        <button class="cancelReason-submit-btn" ng-click="submitPend()">确定</button>
+      </form>
+    </div>
+  </div>
+
+  <!--选择服务时间-->
+  <div class="serverTime-wrp" ng-show="showBox.serverTime">
+    <div class="serverTime-content">
+      <div class="serverTime-content-top">
+        <span>选择服务时间</span>
+        <span class="ion-ios-close-outline" ng-click="showBox.serverTime = !showBox.serverTime"></span>
+      </div>
+      <div class="serverTime-content-body">
+        <div class="serverBody-top">
+          <ul class="year-wrp">
+            <li>{{showDay.month}}月</li>
+            <li>{{showDay.year}}年</li>
+          </ul>
+          <ul class="week-wrp">
+            <li>日</li>
+            <li>一</li>
+            <li>二</li>
+            <li>三</li>
+            <li>四</li>
+            <li>五</li>
+            <li>六</li>
+          </ul>
+        </div>
+        <div class="date-group">
+          <div id="date-scroll-detail" class="date-scroll" on-swipe-right="prevPage(curIndex)" on-swipe-left="nextPage(curIndex)">
+            <div class="date-box" ng-repeat="group in weekArr">
+              <span class="date-item" data-num="{{day}}" ng-class="{'today':day===currentDay.day&&$parent.$index===0,'over':$index<currentDay.week&&$parent.$index===0,'active':activeDay===showDay.year+'-'+showDay.month+'-'+day}" ng-click="chooseDay(showDay.year+'-'+showDay.month+'-'+day,$index<currentDay.week&&$parent.$index===0)" ng-repeat="day in group">{{day}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="serverTime-content-foot">
+        <li>
+          <label>
+            <span class="exist-num" ng-if="occupyNum['06:00-08:00']">{{occupyNum['06:00-08:00']}}</span>
+            <input type="radio" ng-model="timeRange" value="06:00-08:00">06:00-08:00
+          </label>
+          <label>
+            <span class="exist-num" ng-if="occupyNum['08:00-10:00']">{{occupyNum['08:00-10:00']}}</span>
+            <input type="radio" ng-model="timeRange" value="08:00-10:00">08:00-10:00
+          </label>
+        </li>
+        <li>
+          <label>
+            <span class="exist-num" ng-if="occupyNum['10:00-12:00']">{{occupyNum['10:00-12:00']}}</span>
+            <input type="radio" ng-model="timeRange" value="10:00-12:00">10:00-12:00
+          </label>
+          <label>
+            <span class="exist-num" ng-if="occupyNum['12:00-14:00']">{{occupyNum['12:00-14:00']}}</span>
+            <input type="radio" ng-model="timeRange" value="12:00-14:00">12:00-14:00
+          </label>
+        </li>
+        <li>
+          <label>
+            <span class="exist-num" ng-if="occupyNum['14:00-16:00']">{{occupyNum['14:00-16:00']}}</span>
+            <input type="radio" ng-model="timeRange" value="14:00-16:00">14:00-16:00
+          </label>
+          <label>
+            <span class="exist-num" ng-if="occupyNum['16:00-18:00']">{{occupyNum['16:00-18:00']}}</span>
+            <input type="radio" ng-model="timeRange" value="16:00-18:00">16:00-18:00
+          </label>
+        </li>
+        <li>
+          <label>
+            <span class="exist-num" ng-if="occupyNum['18:00-20:00']">{{occupyNum['18:00-20:00']}}</span>
+            <input type="radio" ng-model="timeRange" value="18:00-20:00">18:00-20:00
+          </label>
+          <label>
+            <span class="exist-num" ng-if="occupyNum['20:00-22:00']">{{occupyNum['20:00-22:00']}}</span>
+            <input type="radio" ng-model="timeRange" value="20:00-22:00">20:00-22:00
+          </label>
+        </li>
+      </ul>
+      <button class="cancelReason-submit-btn" ng-click="orderAppointment()">确定</button>
+    </div>
+  </div>
+
+  <ion-content class="orderDetailWrp">
+    <ul class="orderList">
+      <li>
+        <div class="order-list-top">
+          <span>
+            单号：<span class="orderNo">{{orderId}}</span>
+          </span>
+          <span ng-if="!item.refuseOrder && curOrderStateId == 'w_o_s_wait_receive'">倒计时：<span class="orderStaus">{{countHour(item)}}:{{countMinute(item)}}:{{countSecond(item)}}</span></span>
+          <span ng-if="item.refuseOrder && curOrderStateId == 'w_o_s_wait_receive'">倒计时：<span class="orderStaus">00:00:00</span></span>
+          <span ng-if="curOrderStateId != 'w_o_s_wait_receive' " class="orderStaus">状态：{{orderDeatail.orderState}}</span><!--挂起-->
+        </div>
+        <div class="task" ng-repeat="taskInfo in orderDeatail.jobList">
+          <div class="task-left">
+            任务{{$index+1}}：
+          </div>
+          <div class="task-right">
+            <span class="task-right-top">
+              <span>{{taskInfo.type}}</span>
+              <span>数量：{{taskInfo.number}}</span>
+            </span>
+            <span>
+              {{taskInfo.label}}
+            </span>
+          </div>
+        </div>
+        <div class="order-list-mid">
+          <div>
+            <span class="order-list-title">地址：</span>
+            <span>{{orderDeatail.contactsProvince}}{{orderDeatail.contactsCity}}{{orderDeatail.contactsRegion}}{{orderDeatail.contactsAddress}}</span>
+          </div>
+          <div>联系人：{{orderDeatail.contactsName}}</div>
+          <div>电话：{{orderDeatail.contactsPhone}}</div>
+
+          <a class="orderTel-complate" ng-if="curOrderStateId == 'w_o_s_has_complate' ||  curOrderStateId == 'w_o_s_has_cancel'"></a>
+          <a class="orderTel" ng-if="curOrderStateId != 'w_o_s_has_complate' && curOrderStateId != 'w_o_s_has_cancel'" href="tel:{{orderDeatail.contactsPhone}}"></a>
+        </div>
+        <div class="order-list-foot"  ng-if="orderDeatailOther.faultImg.length">
+          <div>
+            <span class="order-list-title">故障图片：</span>
+            <span class="orderImgWrp">
+               <img ng-src="{{serverUrl+images.fastSrc}}" ng-repeat="images in orderDeatailOther.faultImg">
+            </span>
+          </div>
+        </div>
+        <div class="order-list-info" ng-if="orderDeatail.diagnosis">
+          <div>
+            <span class="order-list-title">故障描述：</span>
+            <span>{{orderDeatail.diagnosis}}</span>
+          </div>
+        </div>
+        <div class="order-list-info" ng-if="orderDeatail.clientIntentionTime || orderDeatail.appointmentDate || orderDeatail.appointmentTime">
+          <div ng-if="orderDeatail.clientIntentionTime">
+            <span class="order-list-title">客户意向时间：</span>
+            <span>{{orderDeatail.clientIntentionTimeFirst}}&nbsp;{{orderDeatail.clientIntentionTimeLast}}</span>
+          </div>
+          <div ng-if="orderDeatail.appointmentDate || orderDeatail.appointmentTime">
+            <span class="order-list-title">服务时间：</span>
+            <span>{{orderDeatail.appointmentDate}}&nbsp;&nbsp;{{orderDeatail.appointmentTime}}</span>
+          </div>
+        </div>
+        <div class="order-list-info" ng-if="orderDeatail.remark" ng-click="goMemo(orderId,orderDeatail.remark)">
+          <div>
+            <span class="order-list-title">备忘：</span>
+            <span class="orderDetail-note">{{orderDeatail.remark}}</span>
+            <i class="ion-ios-arrow-right  m-l-5" ng-if="curOrderStateId === 'w_o_s_wait_dispatch' || curOrderStateId === 'w_o_s_wait_receive' || curOrderStateId === 'w_o_s_wait_appointment' || curOrderStateId === 'w_o_s_wait_sign'|| curOrderStateId === 'w_o_s_wait_complate'|| curOrderStateId === 'w_o_s_hang_up' || curOrderStateId === 'w_o_s_redirection'"></i>
+          </div>
+        </div>
+        <div class="order-list-info" ng-if="orderDeatail.pauseReason || orderDeatail.cancelReason">
+          <div ng-if="orderDeatail.pauseReason">
+            <span class="order-list-title">挂起原因：</span>
+            <span>{{orderDeatail.pauseReason}}</span>
+          </div>
+          <div ng-if="orderDeatail.cancelReason">
+            <span class="order-list-title">取消原因：</span>
+            <span>{{orderDeatail.cancelReason}}</span>
+          </div>
+        </div>
+        <div class="order-list-info">
+          <div>
+            <span class="order-list-title">上门费：</span>
+            <span>{{orderDeatail.visitFee}}元</span>
+          </div>
+          <div>
+            <span class="order-list-title">服务费：</span>
+            <span>{{orderDeatail.serveFee}}元</span>
+          </div>
+          <div ng-if="orderDeatail.receivableFee">
+            <span class="order-list-title">本单提成：</span>
+            <span>{{orderDeatail.receivableFee}}元</span>
+          </div>
+        </div>
+        <div class="order-list-foot" ng-if="orderDeatailOther.completionImg.length">
+          <div>
+            <span class="order-list-title">完工图片：</span>
+            <span class="orderImgWrp">
+               <img ng-src="{{serverUrl+images.fastSrc}}" ng-repeat="images in orderDeatailOther.completionImg track by $index" ng-if="images">
+            </span>
+          </div>
+        </div>
+        <div class="order-button" ng-if="curOrderStateId=='w_o_s_wait_receive' || curOrderStateId=='w_o_s_wait_complate' || curOrderStateId=='w_o_s_hang_up' || curOrderStateId=='w_o_s_wait_sign' || curOrderStateId=='w_o_s_wait_appointment' ">
+          <button ng-if="curOrderStateId == 'w_o_s_wait_receive' " ng-click="refuseOrder(orderId)">拒绝</button>
+          <button ng-if="curOrderStateId == 'w_o_s_wait_receive' " ng-click="acceptOrder()">接单</button>
+          <button ng-if="curOrderStateId == 'w_o_s_wait_complate' " ng-click="showPend()">挂起</button>
+          <button ng-if="curOrderStateId == 'w_o_s_wait_complate' || curOrderStateId == 'w_o_s_hang_up'"  ui-sref="completeOrder({orderId:orderId})">拍照完工</button>
+          <button ng-if="curOrderStateId == 'w_o_s_wait_sign' || curOrderStateId == 'w_o_s_wait_appointment'" ng-click="showCancel()">取消</button>
+          <button ng-if="curOrderStateId == 'w_o_s_wait_sign' || curOrderStateId == 'w_o_s_wait_appointment'" ng-click="showReassign()">申请改派</button>
+          <button ng-if="curOrderStateId == 'w_o_s_wait_appointment'" ng-click="showServerTime()">预约时间</button>
+          <button ng-if="curOrderStateId == 'w_o_s_wait_sign' " ng-click="showBox.sign = !showBox.sign">签到</button>
+        </div>
+      </li>
+      <li class="orderSchedule" ng-if="orderDeatailOther.operationList">
+        <div class="orderSchedule-title" ng-click="isShowSchedule = !isShowSchedule">
+          工单进度
+          <i ng-class="{true: 'ion-ios-arrow-up', false: 'ion-ios-arrow-down'}[isShowSchedule]"></i>
+        </div>
+        <div class="operationDetail" ng-show="isShowSchedule">
+          <div class="operation-mesg" ng-repeat="operationInfos in orderDeatailOther.operationList">
+            <span ng-repeat="operationInfo in operationInfos.dayList">
+              <span class="m-r-5">{{operationInfo.title}}</span>
+              <span>{{operationInfos.date}}</span>
+              <span class="m-r-10">{{operationInfo.time}}</span>
+              <span>{{operationInfo.msg}}</span>
+            </span>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </ion-content>
+</ion-view>

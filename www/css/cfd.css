@@ -1,0 +1,178 @@
+/*-------注册,忘记密码-------*/
+
+.regNext {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    padding: 0 30px;
+}
+
+.regNext ul {
+    padding: 24px 0 23px 0;
+}
+
+.regNext ul li {
+    margin: 0 0 11px 0;
+    position: relative;
+    overflow: auto;
+    height: auto;
+}
+
+.regNext ul li div {
+    padding: 0 0 0 45px;
+    height: 40px;
+    line-height: 40px;
+    border-radius: 5px;
+    border: #dbdbdb solid 1px;
+    position: relative;
+    overflow: auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    align-items: center;
+
+}
+.regNext ul li div:before {
+  width: 1px;
+  height: 28px;
+  content: '';
+  background: #dbdbdb;
+  display: block;
+}
+
+/*输入框删除图标*/
+.regNext ul li div i {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: block;
+    width: 30px;
+    height: 38px;
+    background: url("../img/register_delete.png") center no-repeat;
+    background-size: 20px 20px;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.regNext ul li div.register_tel {
+    background: url("../img/register_phone.png") no-repeat;
+    background-size: 20px 20px;
+    background-position: 12px center;
+}
+
+.regNext ul li div.register_code {
+    background: url("../img/register_key.png") no-repeat;
+    background-size: 20px 20px;
+    background-position: 12px center;
+}
+
+.regNext ul li div.register_password {
+    background: url("../img/register_pwd.png") no-repeat;
+    background-size: 20px 20px;
+    background-position: 12px center;
+}
+
+.regNext ul li div.register_confirm {
+    background: url("../img/register_pwd.png") no-repeat;
+    background-size: 20px 20px;
+    background-position: 12px center;
+}
+
+/*注册信息输入框*/
+.regNext ul li div input {
+    position: relative;
+    padding: 0 28px 0 12px;
+    width: 100%;
+    margin: 0;
+    font-size: 13px;
+    border-radius: 0;
+}
+
+/*验证码*/
+.regNext ul li.register_li_verify {
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -ms-box-align: center;
+    box-align: center;
+}
+
+.regNext ul li div.register_code {
+    margin: 0 10px 0 0;
+    flex: 1;
+    -webkit-flex: 1;
+    -moz-flex: 1;
+    -moz-box-flex: 1;
+    -webkit-box-flex: 1;
+    -ms-box-flex: 1;
+    box-flex: 1;
+
+}
+
+/*验证码输入框*/
+.regNext ul li div.register_code input {
+    width: 100%
+}
+
+/*发送验证码按钮*/
+#register_verify, #forgot_verify {
+    width: 110px;
+    line-height: 40px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    padding: 0;
+    color: white;
+    white-space: nowrap;
+    overflow: visible;
+}
+
+#register_finish, #register_verify, #forgot_finish, #forgot_verify {
+    background-color: #ff6537;
+    border: none;
+    border-radius: 5px;
+    font-family: 华文细黑;
+    line-height: 40px;
+    margin: 0px;
+    min-height: 40px;
+    vertical-align: middle;
+    font-size: 16px;
+}
+
+#register_tip {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20, 20, 20, 0.5);
+    text-align: center;
+    vertical-align: middle;
+    position: absolute;
+    left: 0;
+    top: 0;
+    padding: 0 28px;
+    display: -webkit-box;
+    display: -moz-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    -moz-box-align: center;
+    -moz-box-pack: center;
+}
+
+#register_tip p {
+    width: 100%;
+    color: #8a8a8a;
+    margin: -20% 0 0 0;
+    border-radius: 5px;
+    border: none;
+    background-color: white;
+    line-height: 34px;
+    font-size: 16px;
+    font-family: 华文细黑;
+}
+/*-------------------------------------忘记密码---------------------------------*/
+/*同注册*/

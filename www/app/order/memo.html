@@ -1,0 +1,17 @@
+<ion-view view-title="备忘" class="memo-wrp" hide-back-button="true">
+
+  <ion-nav-buttons side="left">
+    <button class="button back-button buttons button-clear header-item" ng-click="saveMemo()">
+      <i class="icon ion-ios-arrow-back"></i>
+    </button>
+  </ion-nav-buttons>
+  <ion-nav-buttons side="right">
+    <button class="button button-clear pull-right" ng-click="cleanMemo()">清空</button>
+  </ion-nav-buttons>
+
+  <ion-scroll class="memo-scroll" direction="y">
+    <form>
+      <textarea placeholder="请输入备忘" ng-model="memo.content"></textarea>
+    </form>
+  </ion-scroll>
+</ion-view>

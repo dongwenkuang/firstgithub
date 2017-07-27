@@ -1,0 +1,107 @@
+/************银行卡信息*************/
+.bankInfo-ul{
+	padding: 10px 10px 0px 10px;
+}
+.bankInfo-blue-li{
+	background-color: #5281d1;
+	border-radius: 5px;
+	padding-top: 15px;
+	padding-bottom: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-bottom: 10px;
+}
+.bankInfo-red-li{
+	background-color: #dd5e81;
+	border-radius: 5px;
+	padding-top: 15px;
+	padding-bottom: 20px;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-bottom: 10px;
+}
+.bankInfo-li-top{
+	line-height: 30px;
+	overflow: auto;
+}
+.bankInfo-icon{
+	float: left;
+	width: 30px;
+	height: 30px;
+	border-radius: 100%;
+	background-image: url("../app/img/user/bank_jsyh.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: 30px;
+}
+.bankInfo-name{
+	float: left;
+	font-size: 16px;
+	color: #ffffff;
+	margin-left: 13px;
+}
+.bankInfo-default{
+	display: block;
+	float: right;
+	font-size: 12px;
+	color: #ffffff;
+	line-height: 30px;
+}
+.bankInfo-default input[type="radio"] {
+  -webkit-appearance: none;
+  border: none;
+  width: 30px;
+  height: 30px;
+  background: url("../app/img/user/bank_cb_no.png");
+  background-size: 30px;
+  background-position: 0px -2px;
+  background-repeat: no-repeat;
+  vertical-align: middle;
+  }
+.bankInfo-default input[type="radio"]:checked {
+  background: url("../app/img/user/bank_cb_sel.png");
+  background-size: 30px;
+  background-position: 0px -2px;
+  background-repeat: no-repeat;
+}
+.bankInfo-middle{
+	padding-left: 43px;
+	color: #ffffff;
+	font-size: 12px;
+}
+.bankInfo-bottom{
+	padding-left: 43px;
+	color: #ffffff;
+	font-size: 16px;
+	margin-top: 10px;
+}
+.bankInfo-add{
+	padding-top: 15px;
+	padding-bottom: 15px;
+	margin-left: 10px;
+	margin-right: 10px;
+	text-align: center;
+	border: 1px dashed #cbcbcb;
+	border-radius: 5px;
+}
+.bankInfo-add label{
+  	position: relative;
+	color: #c1c1c1;
+	font-size: 16px;
+  	padding-left: 20px;
+}
+.bankInfo-add label:before {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: block;
+  margin-top: -14px;
+  margin-left: -14px;
+  width: 28px;
+  height: 28px;
+  background: url("../app/img/user/bank_add.png");
+  background-size: 28px;
+  background-position:center;
+  background-repeat: no-repeat;
+  content: '';
+}
